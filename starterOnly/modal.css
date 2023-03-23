@@ -223,7 +223,7 @@ input {
 }
 .formData[data-error]::after {
   content: attr(data-error);
-  font-size: 0.4em;
+  font-size: 0.45em;
   color: #e54858;
   display: block;
   margin-top: 7px;
@@ -234,6 +234,7 @@ input {
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
+  font-weight:unset;
 }
 .formData[data-error-visible="true"]::after {
   opacity: 1;

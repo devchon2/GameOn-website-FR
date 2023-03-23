@@ -48,7 +48,7 @@ const formfieldsObjects = [
   { // Objet Date de naissance
     formfield: inputBirthdate,
     condition: () =>!validateBirthdate(),  // Vérifier si la date de naissance est valide (fonction validateBirthdate
-    message: "Veuillez entrer votre date de naissance."
+    message: "Vous n'avez pas l'âge autorisé!"
   },
   {  // Objet Objet Quantité
     formfield: InputChallengeNb,
@@ -177,10 +177,13 @@ function validate() {
       formIsTrue = false;
     } else {
       console.log("formOk = " +  formfieldsObjects[i].formfield.value);
-      
       formfieldsObjects[i].formfield.parentElement.removeAttribute("data-error");
       formfieldsObjects[i].formfield.parentElement.setAttribute("data-error-visible", "false");
     }
+  }
+  if (!formIsTrue) {
+    // Si le formulaire n'est pas valide, on vide le formulaire
+    document.forms["reserve"].reset();
   }
   return formIsTrue;
 }
