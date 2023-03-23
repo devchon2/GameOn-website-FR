@@ -90,6 +90,9 @@ function launchModal() {// Lancement de la modale
 // Événement de fermeture de la modale
 closeModal.addEventListener("click", closeForm);
 closeModal2.addEventListener("click", closeForm);
+document.addEventListener("click" , e => {if (e.target == modalbg) closeForm()});// Fermeture de la modale au clic en dehors de la modale
+  
+
 
 function closeForm() {// Fermeture de la modale
 
