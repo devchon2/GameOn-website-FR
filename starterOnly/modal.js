@@ -48,7 +48,7 @@ const formfieldsObjects = [
   { // Objet Date de naissance
     formfield: inputBirthdate,
     condition: () =>!validateBirthdate(),  // Vérifier si la date de naissance est valide (fonction validateBirthdate
-    message: "Vous n'avez pas l'âge autorisé!"
+    message: ""
   },
   {  // Objet Objet Quantité
     formfield: InputChallengeNb,
@@ -93,9 +93,7 @@ closeModal2.addEventListener("click", closeForm);
 document.addEventListener("click" , e => {if (e.target == modalbg) closeForm()});// Fermeture de la modale au clic en dehors de la modale
   
 
-
 function closeForm() {// Fermeture de la modale
-
   modalbg.style.display = "none";
 }
 
@@ -112,8 +110,7 @@ document.forms["reserve"].addEventListener(   // Fonction de validation des donn
 );
 
 // Fonction de confirmation de la modale
-function confirmValidation() {
-  
+function confirmValidation() {  
   if (validate()) {
     innermodalBody.style.display = "none";
     modalSubmissionDiv.style.display = "flex";
@@ -122,9 +119,6 @@ function confirmValidation() {
 
 
 //////////////////////////////////////////////// GESTION DU FORMULAIRE //////////////////////////////////////////
-
-
-
 
 // Fonction de validation des données des champs input
 function validateLocation() {
@@ -143,12 +137,15 @@ function validateLocation() {
   }
 }
 
+// Convertir la date de naissance en objet Date
 function validateBirthdate() {   
-    // Convertir la date de naissance en objet Date
-  this.BirthDate = new Date(inputBirthdate.value  );
+    
+  this.BirthDate = new Date(inputBirthdate.value);
+  
 
   // Vérifier si la date est valide
   if (isNaN(this.BirthDate.getTime())) {
+    formfieldsObjects[2].message = "Veuillez entrer une date de naissance valide.";
     return false;
   }
 
@@ -160,11 +157,11 @@ function validateBirthdate() {
     age--;
   }
   if (age < 18) {
+    formfieldsObjects[2].message= "Vous n'avez pas l'âge autorisé!";
     return false;
   }
   return true;
 }
-
 
 function validate() {
   let formIsTrue = true;
