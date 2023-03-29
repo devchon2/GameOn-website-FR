@@ -3,6 +3,7 @@
 
 //Récupération de la modale
 const modalbg = document.querySelector(".bground"); // Modale
+const contentmodal = document.querySelector(".content")
 const innermodalBody = document.querySelector(".modal-body");  // Corps de la modale
 
 //Récupération  des boutons de la modale
@@ -80,7 +81,10 @@ const formfieldsObjects = [
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 function launchModal() {// Lancement de la modale
+  contentmodal.classList.add("content");
+  contentmodal.classList.remove("close-content");
   modalbg.style.display = "block";
+  innermodalBody.style.display = "block" ;
   inputFirstName.focus();
 }
 
@@ -93,8 +97,11 @@ document.addEventListener("click", e => { if (e.target == modalbg) closeForm() }
 
 
 function closeForm() {// Fermeture de la modale
-  modalbg.style.display = "none";
+  contentmodal.classList.remove("content");
+  contentmodal.classList.add("close-content");
+  setTimeout(() => { modalbg.style.display = "none"; }, 400);
 }
+
 
 //// SOUMISSION DE LA MODALE
 
@@ -121,7 +128,7 @@ function confirmValidation() {
 
 function validateFirstName() { // Fonction de validation du prénom
   if (inputFirstName.value.trim().length < 2){
-    formfieldsObjects[0].message = "Veuillez entrer au minimum 2 lettres ou plus pour le prénom.";
+    formfieldsObjects[0].message = "Veuillez entrer 2 lettres ou plus pour le prénom.";
     return false;
   } 
   if (!regexpFirstName.test(inputFirstName.value.trim())) {
@@ -147,16 +154,12 @@ function validateLastname() { // Fonction de validation du prénom
 }
 
 
-
-
-
-
 // Fonction de validation des données des champs input
 function validateLocation() {
   let selectedLocation = 0;
 
   for (let location of listLocations) {
-    console.log(location.value)
+    
     if (location.checked) {
       selectedLocation++;
 
