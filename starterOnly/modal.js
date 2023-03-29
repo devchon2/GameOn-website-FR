@@ -28,26 +28,26 @@ const InputChallengeNb = document.forms["reserve"]["quantity"]; // Champ input n
 const listLocations = document.querySelectorAll('input[type="radio"][name="location"]')
 const formLocations = document.querySelector('input.radio')
 const inputTerms = document.forms["reserve"]["checkbox1"]; // Champ input conditions générales
-
 //Régex pour la validation de l'email
 const regexpEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
+const regexpFirstName = /^[a-zA-Z\s]+$/;
+const regexpLastName = /^[a-zA-Z\s]+$/;
 //Liste des objets à vérifier + conditions + messages de retour en cas d'erreur
 
 const formfieldsObjects = [
   {   // Objet Prénom
     formfield: inputFirstName,
-    condition: () => inputFirstName.value === "" || inputFirstName.value.length < 2,
-    message: "Mettez votre prénom."
+    condition: () => !validateFirstName(),
+    message: ""
   },
   { // Objet Nom de Famille
     formfield: inputLastName,
-    condition: () => inputLastName.value === "" || inputLastName.value.length < 2,
-    message: "Veuillez entrer 2 caractères ou plus pour le champ du nom."
+    condition: () => !validateLastname(),
+    message: ""
   },
   { // Objet Date de naissance
     formfield: inputBirthdate,
-    condition: () =>!validateBirthdate(),  // Vérifier si la date de naissance est valide (fonction validateBirthdate
+    condition: () => !validateBirthdate(),  // Vérifier si la date de naissance est valide (fonction validateBirthdate
     message: ""
   },
   {  // Objet Objet Quantité
@@ -59,16 +59,15 @@ const formfieldsObjects = [
     formfield: inputEmail,
     condition: () => !regexpEmail.test(inputEmail.value),
     message: "Veuillez entrer une adresse e-mail valide."
-  }, 
+  },
   { // Objet Conditions générales
     formfield: inputTerms,
     condition: () => !inputTerms.checked,  // Vérifier si les conditions générales sont cochées
     message: "Vous devez vérifier que vous acceptez les termes et conditions."
   },
   { // Objet Localisation 
-    formfield: formLocations,        
-    condition: () =>  // Vérifier si une ville est sélectionnée
-      !validateLocation(),  // Vérifier si une ville est sélectionnée (fonction validateLocation
+    formfield: formLocations,
+    condition: () => !validateLocation(),  // Vérifier si une ville est sélectionnée (fonction validateLocation
     message: "Veuillez sélectionner une ville."
   },
 ];
@@ -90,8 +89,8 @@ function launchModal() {// Lancement de la modale
 // Événement de fermeture de la modale
 closeModal.addEventListener("click", closeForm);
 closeModal2.addEventListener("click", closeForm);
-document.addEventListener("click" , e => {if (e.target == modalbg) closeForm()});// Fermeture de la modale au clic en dehors de la modale
-  
+document.addEventListener("click", e => { if (e.target == modalbg) closeForm() });// Fermeture de la modale au clic en dehors de la modale
+
 
 function closeForm() {// Fermeture de la modale
   modalbg.style.display = "none";
@@ -102,15 +101,15 @@ function closeForm() {// Fermeture de la modale
 // Événement d'envoi du formulaire
 document.forms["reserve"].addEventListener("submit", confirmValidation);  // Fonction de confirmation de la modale
 document.forms["reserve"].addEventListener(   // Fonction de validation des données des champs input
-  "submit", 
-  e => {  
+  "submit",
+  e => {
     e.preventDefault(); // Annuler l'envoi du formulaire
-    validate(); 
+    validate();
   }
 );
 
 // Fonction de confirmation de la modale
-function confirmValidation() {  
+function confirmValidation() {
   if (validate()) {
     innermodalBody.style.display = "none";
     modalSubmissionDiv.style.display = "flex";
@@ -120,16 +119,49 @@ function confirmValidation() {
 
 //////////////////////////////////////////////// GESTION DU FORMULAIRE //////////////////////////////////////////
 
+function validateFirstName() { // Fonction de validation du prénom
+  if (inputFirstName.value.trim().length < 2){
+    formfieldsObjects[0].message = "Veuillez entrer au minimum 2 lettres ou plus pour le prénom.";
+    return false;
+  } 
+  if (!regexpFirstName.test(inputFirstName.value.trim())) {
+    formfieldsObjects[0].message = "Veuillez entrer uniquement des lettres pour le prénom.";
+    return false;
+  }
+  else{
+  return true;
+  }
+}
+
+function validateLastname() { // Fonction de validation du prénom
+  if (inputLastName.value.trim().length < 2 || inputLastName.value.trim() === "") {
+    formfieldsObjects[1].message = "Veuillez entrer au minimum 2 lettres ou plus pour le nom.";
+      return false;
+  }
+ if (!regexpLastName.test(inputLastName.value.trim())) {
+    formfieldsObjects[1].message = "Veuillez entrer uniquement des lettres pour le nom.";
+    return false;
+}  else {
+    return true;
+}
+}
+
+
+
+
+
+
 // Fonction de validation des données des champs input
 function validateLocation() {
   let selectedLocation = 0;
 
-  for (let location of  listLocations ) {
+  for (let location of listLocations) {
     console.log(location.value)
     if (location.checked) {
-    selectedLocation++;
-    
-  }}
+      selectedLocation++;
+
+    }
+  }
   if (selectedLocation === 0) {
     return false;
   } else {
@@ -137,11 +169,11 @@ function validateLocation() {
   }
 }
 
-// Convertir la date de naissance en objet Date
-function validateBirthdate() {   
-    
+// validation de la date de naissance en objet Date
+function validateBirthdate() {
+
   this.BirthDate = new Date(inputBirthdate.value);
-  
+
 
   // Vérifier si la date est valide
   if (isNaN(this.BirthDate.getTime())) {
@@ -157,7 +189,7 @@ function validateBirthdate() {
     age--;
   }
   if (age < 18) {
-    formfieldsObjects[2].message= "Vous n'avez pas l'âge autorisé!";
+    formfieldsObjects[2].message = "Vous n'avez pas l'âge autorisé!";
     return false;
   }
   return true;
@@ -168,7 +200,7 @@ function validate() {
   for (let i = 0; i < formfieldsObjects.length; i++) {
     let condition = formfieldsObjects[i].condition();
     let message = formfieldsObjects[i].message;
-    
+
     if (condition) {
       console.log("formNotOk = " + formfieldsObjects[i].message);
       formfieldsObjects[i].formfield.parentElement.setAttribute("data-error", message);
@@ -176,11 +208,11 @@ function validate() {
       formfieldsObjects[i].formfield.focus();
       formIsTrue = false;
     } else {
-      console.log("formOk = " +  formfieldsObjects[i].formfield.value);
+      console.log("formOk = " + formfieldsObjects[i].formfield.value);
       formfieldsObjects[i].formfield.parentElement.removeAttribute("data-error");
       formfieldsObjects[i].formfield.parentElement.setAttribute("data-error-visible", "false");
     }
   }
-  
+
   return formIsTrue;
 }
