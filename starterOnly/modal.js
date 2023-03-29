@@ -181,9 +181,6 @@ function validate() {
       formfieldsObjects[i].formfield.parentElement.setAttribute("data-error-visible", "false");
     }
   }
-  if (!formIsTrue) {
-    // Si le formulaire n'est pas valide, on vide le formulaire
-    document.forms["reserve"].reset();
-  }
+  
   return formIsTrue;
 }
