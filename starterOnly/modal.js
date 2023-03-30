@@ -84,7 +84,7 @@ function launchModal() {// Lancement de la modale
   contentmodal.classList.add("content");
   contentmodal.classList.remove("close-content");
   modalbg.style.display = "block";
-  innermodalBody.style.display = "block" ;
+  innermodalBody.style.display = "block";
   inputFirstName.focus();
 }
 
@@ -99,9 +99,9 @@ document.addEventListener("click", e => { if (e.target == modalbg) closeForm() }
 function closeForm() {// Fermeture de la modale
   contentmodal.classList.remove("content");
   contentmodal.classList.add("close-content");
-  setTimeout(() => { modalbg.style.display = "none"; }, 400);
+  setTimeout(() => {modalbg.opacity = "0"}, 500);
+  setTimeout(() => {modalbg.style.display = "none"}, 500);
 }
-
 
 //// SOUMISSION DE LA MODALE
 
@@ -110,7 +110,7 @@ document.forms["reserve"].addEventListener("submit", confirmValidation);  // Fon
 document.forms["reserve"].addEventListener(   // Fonction de validation des données des champs input
   "submit",
   e => {
-    e.preventDefault(); // Annuler l'envoi du formulaire
+    e.preventDefault(); // Annuler l'envoi du formulaireavant la validation
     validate();
   }
 );
@@ -127,42 +127,39 @@ function confirmValidation() {
 //////////////////////////////////////////////// GESTION DU FORMULAIRE //////////////////////////////////////////
 
 function validateFirstName() { // Fonction de validation du prénom
-  if (inputFirstName.value.trim().length < 2){
+  if (inputFirstName.value.trim().length < 2) {
     formfieldsObjects[0].message = "Veuillez entrer 2 lettres ou plus pour le prénom.";
     return false;
-  } 
+  }
   if (!regexpFirstName.test(inputFirstName.value.trim())) {
     formfieldsObjects[0].message = "Veuillez entrer uniquement des lettres pour le prénom.";
     return false;
   }
-  else{
-  return true;
+  else {
+    return true;
   }
 }
 
-function validateLastname() { // Fonction de validation du prénom
+function validateLastname() { // Fonction de validation du nom
   if (inputLastName.value.trim().length < 2 || inputLastName.value.trim() === "") {
     formfieldsObjects[1].message = "Veuillez entrer au minimum 2 lettres ou plus pour le nom.";
-      return false;
+    return false;
   }
- if (!regexpLastName.test(inputLastName.value.trim())) {
+  if (!regexpLastName.test(inputLastName.value.trim())) {
     formfieldsObjects[1].message = "Veuillez entrer uniquement des lettres pour le nom.";
     return false;
-}  else {
+  } else {
     return true;
-}
+  }
 }
 
 
-// Fonction de validation des données des champs input
+// Fonction de validation des données des boutons radio
 function validateLocation() {
   let selectedLocation = 0;
-
   for (let location of listLocations) {
-    
     if (location.checked) {
       selectedLocation++;
-
     }
   }
   if (selectedLocation === 0) {
@@ -172,12 +169,10 @@ function validateLocation() {
   }
 }
 
-// validation de la date de naissance en objet Date
+// validation de la date de naissance 
 function validateBirthdate() {
-
   this.BirthDate = new Date(inputBirthdate.value);
-
-
+  this.message = formfieldsObjects[2].message;
   // Vérifier si la date est valide
   if (isNaN(this.BirthDate.getTime())) {
     formfieldsObjects[2].message = "Veuillez entrer une date de naissance valide.";

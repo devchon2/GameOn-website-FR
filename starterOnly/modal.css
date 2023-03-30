@@ -199,8 +199,6 @@ a.icon {
   animation-duration: var(--close-modal-duration);
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
-
-  
 }
 
 .modal-submission,
