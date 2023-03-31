@@ -383,6 +383,7 @@ input {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  height:90%
 }
 .btn-responsive {
   display: none;
