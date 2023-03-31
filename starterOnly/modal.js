@@ -171,19 +171,18 @@ function validateLocation() {
 
 // validation de la date de naissance 
 function validateBirthdate() {
-  this.BirthDate = new Date(inputBirthdate.value);
-  this.message = formfieldsObjects[2].message;
+  const BirthDate = new Date(inputBirthdate.value);
   // Vérifier si la date est valide
-  if (isNaN(this.BirthDate.getTime())) {
+  if (isNaN(BirthDate.getTime()) || BirthDate === "") {
     formfieldsObjects[2].message = "Veuillez entrer une date de naissance valide.";
     return false;
   }
 
   // Vérifier si l'utilisateur a plus de 18 ans
   const today = new Date();
-  let age = today.getFullYear() - this.BirthDate.getFullYear();
-  const m = today.getMonth() - this.BirthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < this.BirthDate.getDate())) {
+  let age = today.getFullYear() - BirthDate.getFullYear();
+  const m = today.getMonth() - BirthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < BirthDate.getDate())) {
     age--;
   }
   if (age < 18) {
