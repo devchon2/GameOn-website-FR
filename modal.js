@@ -179,20 +179,19 @@ function validateLocation() { // Fonction de validation de la localisation
 // validation de la date de naissance 
 function validateBirthdate() {  // Fonction de validation de la date de naissance
   const BirthDate = new Date(inputBirthdate.value);
-  // Vérifier si la date est valide
-  if (isNaN(BirthDate.getTime()) || BirthDate === "") {   // Vérifier si l'objet est vide ou n'est pas une date
-    formfieldsObjects[2].message = "Veuillez entrer une date de naissance valide.";   //Message d'erreur si l'objet est vide ou n'est pas une date
-    return false;
-  }
-
   // Vérifier si l'utilisateur a plus de 18 ans
   const today = new Date(); // Obtenir la date du jour
   let age = today.getFullYear() - BirthDate.getFullYear();  // Calcul de l'âge
   const m = today.getMonth() - BirthDate.getMonth();  // Calcul du mois
   if (m < 0 || (m === 0 && today.getDate() < BirthDate.getDate())) {  // Vérifier si l'âge est inférieur à 18 ans en tenant compte du jour et du mois de naissance
     age--;  // Si l'un des deux est inférieur , on soustrait 1 à l'âge
+  } 
+  // Vérifier si la date est valide
+  if (isNaN(BirthDate.getTime()) || BirthDate === "" || age > 99 ) {   // Vérifier si l'objet est vide ou n'est pas une date
+    formfieldsObjects[2].message = "Veuillez entrer une date de naissance valide.";   //Message d'erreur si l'objet est vide ou n'est pas une date
+    return false;
   }
-  if (age < 18) { // Vérifier si l'âge est inférieur à 18 ans
+  if (age < 18 ) { // Vérifier si l'âge est inférieur à 18 ans
     formfieldsObjects[2].message = "Vous n'avez pas l'âge autorisé!"; // Message d'erreur si l'âge est inférieur à 18 ans
     return false;   // Si l'âge est inférieur à 18 ans, on retourne false
   }
