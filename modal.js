@@ -51,7 +51,7 @@ const formfieldsObjects = [
   {  // Objet Objet Quantité
     formfield: InputChallengeNb,  // Champ input nombre de tournois
     condition: () => InputChallengeNb.value === "", // Vérifier si le champ est vide
-    message: "Merci de compléter le formulaire avec le nombre de participation à nos tournois." // Message de retour en cas d'erreur
+    message: "Merci d'indiquer un nombre de participation." // Message de retour en cas d'erreur
   },
   { // Objet E-mail
     formfield: inputEmail,  // Champ input e-mail
@@ -61,7 +61,7 @@ const formfieldsObjects = [
   { // Objet Conditions générales
     formfield: inputTerms,  // Champ input conditions générales
     condition: () => !inputTerms.checked,  // Vérifier si les conditions générales sont cochées
-    message: "Vous devez vérifier que vous acceptez les termes et conditions."  // Message de retour en cas d'erreur
+    message: "Vous devez  acceptez les termes et conditions."  // Message de retour en cas d'erreur
   },
   { // Objet Localisation 
     formfield: formLocations, // Champ input localisation
